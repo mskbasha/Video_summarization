@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 from typing import List
 from Pbar import progressbar
-from GMFLOW.gmflow.gmflow import GMFlow
+from gmflow.gmflow import GMFlow
 from lavis.models import load_model_and_preprocess
 
 class caption:
