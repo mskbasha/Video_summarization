@@ -39,7 +39,7 @@ To get started with this project, follow these steps:
 
 3. **Run the Project:** Run the provided scripts to process a video, extract text, and generate a summary. Detailed instructions can be found in the project's documentation.
    ```
-   !python /content/Video_summarization/model.py --device=cuda:0 \
+   !python model.py --device=cuda:0 \
         --url="https://www.youtube.com/watch?v=avz06PDqDbM&t=3s"\
         --key="Your gpt api Key" \
         --gm_loc="/content/pretrained/gmflow_sintel-0c07dcb3.pth"
