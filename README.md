@@ -38,11 +38,10 @@ To get started with this project, follow these steps:
 2. **Install Dependencies:** Make sure you have all the required dependencies installed. You may need to set up the necessary environment or virtual environment.
 
 3. **Run the Project:** Run the provided scripts to process a video, extract text, and generate a summary. Detailed instructions can be found in the project's documentation.
-
-   '''
+   ```
    !python /content/Video_summarization/model.py --device=cuda:0 \
         --url="https://www.youtube.com/watch?v=avz06PDqDbM&t=3s"\
-        --key="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" \
+        --key="Your gpt api Key" \
         --gm_loc="/content/pretrained/gmflow_sintel-0c07dcb3.pth"
-   '''
+   ```
 Feel free to customize and expand upon this README template to provide more specific details about your project, such as installation instructions, usage examples, and additional documentation.
