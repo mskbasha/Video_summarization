@@ -1,4 +1,4 @@
-![image](https://github.com/mskbasha/Video_summarization/assets/110763051/93e0d54d-1156-4d6c-adf2-da235a06b3b2)# Video_summarization
+# Video_summarization
 Summarize videos of length&lt;3min
 Sure! Here's a sample README for your video summarization project repository:
 
