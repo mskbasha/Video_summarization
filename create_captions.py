@@ -3,8 +3,8 @@ import cv2 as cv
 import numpy as np
 from PIL import Image
 from typing import List
-from Pbar import progressbar
-from gmflow.gmflow import GMFlow
+from .Pbar import progressbar
+from .gmflow.gmflow.gmflow import GMFlow
 from lavis.models import load_model_and_preprocess
 
 class caption:
