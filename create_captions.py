@@ -31,7 +31,7 @@ class caption:
                                                                 device=self.device)
         return model,model_blip,vis_processors
     
-    def captions(self, video_loc :str , gm_loc : str,vel = 60) -> List[str,float]:
+    def captions(self, video_loc :str , gm_loc : str,vel = 60):
         
         model,model_blip,vis_processors = self.load_models(self.device,gm_loc)
         video = cv.VideoCapture(video_loc)
