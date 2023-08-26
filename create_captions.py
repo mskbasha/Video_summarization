@@ -30,7 +30,7 @@ class caption:
                                                                 is_eval=True, 
                                                                 device=self.device)
     
-    def captions(self, video_loc :str ,vel = 60) :
+    def captions(self, video_loc :str ,pr = 1,total = 1,vel = 60) :
         
         
         video = cv.VideoCapture(video_loc)
@@ -55,7 +55,8 @@ class caption:
             pb.print(c*10,total_frames,f""" 
             Total frames read {c*10}/{total_frames} 
             time = {time}
-            good frames ={len(goodframes)}""")
+            good frames ={len(goodframes)}
+            {pr}/{total} videos""")
             c+=1
             time = c*10/fps
             framesForCaptions.append(frame2)
