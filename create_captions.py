@@ -9,8 +9,9 @@ from lavis.models import load_model_and_preprocess
 
 class caption:
     
-    def __init__(self, device : torch.device, gm_loc : str) -> None:
+    def __init__(self, device : torch.device, gm_loc : str,model_type="pretrain_flant5xl") -> None:
         self.device = device
+        self.model_type = model_type
         self.load_models(gm_loc)
     def load_models(self,gm_loc : str):
         
@@ -25,10 +26,10 @@ class caption:
         checkpoint = torch.load(gm_loc, map_location= self.device)
         weights = checkpoint['model'] if 'model' in checkpoint else checkpoint
         self.model.load_state_dict(weights, strict='store_true')
-        self.model_blip, self.vis_processors, _ = load_model_and_preprocess(name="blip2_t5", 
-                                                                model_type="pretrain_flant5xxl", 
-                                                                is_eval=True, 
-                                                                device=self.device)
+        self.model_blip, self.vis_processors, _ = load_model_and_preprocess(name = "blip2_t5", 
+                                                                model_type = self.model_type, 
+                                                                is_eval = True, 
+                                                                device = self.device)
     
     def captions(self, video_loc :str ,pr = 1,total = 1,vel = 60) :
         
