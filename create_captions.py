@@ -16,7 +16,9 @@ class caption:
         self.vel = 60
         self.batch_size = 10
         self.framesToSkip = 5
-        self.prompt =  """Caption this image"""
+        self.prompt =  """Caption this image:
+Use below given text in square brackets [{}] Which are text on image in no perticular order
+Generate good caption describing entire image with text"""
         self.ocr = PaddleOCR(use_angle_cls=True, lang="ch",show_log=False) 
     def load_models(self,gm_loc : str):
         
@@ -81,11 +83,7 @@ class caption:
                             result = self.ocr.ocr(np.flip(framesForCaptions[ind],axis = -1),cls=True)
                             frame_0 = Image.fromarray(np.flip(framesForCaptions[ind],axis = -1))
                             image = self.vis_processors["eval"](frame_0).unsqueeze(0).to(self.device)
-                            self.prompt = f"""Caption this image:
-Use below given text in square brackets
-[{' , '.join([x[1][0] for x in result[0]])}]
- which are text on image in no perticular order
- generate good caption describing entire image with text"""
+                            self.prompt = self.prompt.format(' , '.join([x[1][0] for x in result[0]]))
                             goodframes.append([self.model_blip.generate({"image": image, 
                                                                     "prompt":self.prompt}),times[ind]])
                     count = 0
