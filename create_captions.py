@@ -56,9 +56,9 @@ Generate good caption describing entire image with text"""
         total_frames = int(video.get(cv.CAP_PROP_FRAME_COUNT))
         goodframes.append([self.cap(video.read()[1])[0],0])
         while True:
-            for i in range(self.framesToSkip): _,frame1 = video.read()
+            _,frame1 = video.read()
             if not _:break
-            for i in range(self.framesToSkip): _,frame2 = video.read()
+            for i in range(self.framesToSkip*2): _,frame2 = video.read()
             if not _:break
             pb.print(c*2*self.framesToSkip,total_frames,f""" 
             \r Total frames read {c*10}/{total_frames} 
