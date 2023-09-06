@@ -42,8 +42,8 @@ Generate good caption describing entire image with text"""
         result = self.ocr.ocr(image,cls=True)
         frame_0 = Image.fromarray(image)
         image = self.vis_processors["eval"](frame_0).unsqueeze(0).to(self.device)
-        self.prompt = self.prompt.format(' , '.join([x[1][0] for x in result[0]]))
-        return self.model_blip.generate({"image": image, "prompt":self.prompt})
+        prompt = self.prompt.format(' , '.join([x[1][0] for x in result[0]]))
+        return self.model_blip.generate({"image": image, "prompt":prompt})
     def captions(self, video_loc :str ,pr = 1,total = 1) :  
         video = cv.VideoCapture(video_loc)
         prev_frames,next_frames,framesForCaptions,times,goodframes = [],[],[],[],[]
