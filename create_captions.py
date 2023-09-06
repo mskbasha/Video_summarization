@@ -37,7 +37,13 @@ Generate good caption describing entire image with text"""
                                                                 model_type = self.model_type, 
                                                                 is_eval = True, 
                                                                 device = self.device)
-    
+    def cap(self,image):
+        image = np.flip(image,axis = -1)
+        result = self.ocr.ocr(image,cls=True)
+        frame_0 = Image.fromarray(image)
+        image = self.vis_processors["eval"](frame_0).unsqueeze(0).to(self.device)
+        self.prompt = self.prompt.format(' , '.join([x[1][0] for x in result[0]]))
+        return self.model_blip.generate({"image": image, "prompt":self.prompt})
     def captions(self, video_loc :str ,pr = 1,total = 1) :  
         video = cv.VideoCapture(video_loc)
         prev_frames,next_frames,framesForCaptions,times,goodframes = [],[],[],[],[]
@@ -48,6 +54,7 @@ Generate good caption describing entire image with text"""
         count = 0
         time = 0
         total_frames = int(video.get(cv.CAP_PROP_FRAME_COUNT))
+        goodframes.append([self.cap(video.read()[1])[0],0])
         while True:
             for i in range(self.framesToSkip): _,frame1 = video.read()
             if not _:break
@@ -79,13 +86,7 @@ Generate good caption describing entire image with text"""
                     velocity = torch.sqrt(velocity[:,0]**2+velocity[:,1]**2)
                     velocity = torch.sum(velocity,axis=[1,2])/sum(velocity.shape[1:])>self.vel
                     for ind,i in enumerate(velocity):
-                        if i:
-                            result = self.ocr.ocr(np.flip(framesForCaptions[ind],axis = -1),cls=True)
-                            frame_0 = Image.fromarray(np.flip(framesForCaptions[ind],axis = -1))
-                            image = self.vis_processors["eval"](frame_0).unsqueeze(0).to(self.device)
-                            self.prompt = self.prompt.format(' , '.join([x[1][0] for x in result[0]]))
-                            goodframes.append([self.model_blip.generate({"image": image, 
-                                                                    "prompt":self.prompt}),times[ind]])
+                        if i:goodframes.append([self.cap(framesForCaptions[ind]),times[ind]])
                     count = 0
                     prev_frames,next_frames,framesForCaptions,times = [],[],[],[]
         return goodframes
