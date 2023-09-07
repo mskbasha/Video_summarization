@@ -6,7 +6,7 @@ from typing import List
 from .Pbar import progressbar
 from .gmflow.gmflow.gmflow import GMFlow
 from lavis.models import load_model_and_preprocess
-from paddleocr import PaddleOCR, draw_ocr
+from cnocr import CnOcr
 class caption:
     
     def __init__(self, device : torch.device, gm_loc : str,model_type="pretrain_flant5xl") -> None:
@@ -19,7 +19,7 @@ class caption:
         self.prompt =  """Caption this image:
 Use below given text in square brackets [{}] Which are text on image in no perticular order
 Generate good caption describing entire image with text"""
-        self.ocr = PaddleOCR(use_angle_cls=True, lang="ch",show_log=False) 
+        self.ocr = CnOcr()  
     def load_models(self,gm_loc : str):
         
         self.model = GMFlow(feature_channels = 128,
@@ -39,10 +39,10 @@ Generate good caption describing entire image with text"""
                                                                 device = self.device)
     def cap(self,image):
         image = np.flip(image,axis = -1)
-        result = self.ocr.ocr(image,cls=True)
+        result = self.ocr.ocr(image)
         frame_0 = Image.fromarray(image)
         image = self.vis_processors["eval"](frame_0).unsqueeze(0).to(self.device)
-        prompt = self.prompt.format(' , '.join([x[1][0] for x in result[0]]))
+        prompt = self.prompt.format(' , '.join([i['text'] for i in result if i['score']>0.5]))
         return self.model_blip.generate({"image": image, "prompt":prompt})
     def captions(self, video_loc :str ,pr = 1,total = 1) :  
         video = cv.VideoCapture(video_loc)
