@@ -17,8 +17,8 @@ class caption:
         self.batch_size = 10
         self.framesToSkip = 5
         self.prompt =  """Caption this image:
-Use below given text in square brackets [{}] Which are text on image in no perticular order
-Generate good caption describing entire image with text"""
+Use below given text in square brackets [{}] which are text on the image in no particular order. 
+Generate a caption describing the entire image with only the text provided in the brackets."""
         self.ocr = PaddleOCR(use_angle_cls=True, lang="ch",show_log=False) 
     def load_models(self,gm_loc : str):
         
@@ -43,7 +43,7 @@ Generate good caption describing entire image with text"""
         frame_0 = Image.fromarray(image)
         image = self.vis_processors["eval"](frame_0).unsqueeze(0).to(self.device)
         prompt = self.prompt.format(' , '.join([x[1][0] for x in result[0]]))
-        return self.model_blip.generate({"image": image, "prompt":prompt})
+        return self.model_blip.generate({"image": image, "prompt":prompt}),prompt
     def captions(self, video_loc :str ,pr = 1,total = 1) :  
         video = cv.VideoCapture(video_loc)
         prev_frames,next_frames,framesForCaptions,times,goodframes = [],[],[],[],[]
