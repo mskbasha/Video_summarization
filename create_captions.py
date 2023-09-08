@@ -20,7 +20,6 @@ class caption:
 Use below given text in square brackets [{}] which are text on the image in no particular order. Generate a caption describing the entire image with only the text provided in the brackets."""
         self.ocr = CnOcr(device = device)  
     def load_models(self,gm_loc : str):
-        
         self.model = GMFlow(feature_channels = 128,
                         num_scales = 1,
                         upsample_factor = 8,
@@ -42,7 +41,7 @@ Use below given text in square brackets [{}] which are text on the image in no p
         frame_0 = Image.fromarray(image)
         image = self.vis_processors["eval"](frame_0).unsqueeze(0).to(self.device)
         prompt = self.prompt.format(' , '.join([i['text'] for i in result if i['score']>0.5]))
-        return self.model_blip.generate({"image": image, "prompt":prompt})
+        return self.model_blip.generate({"image": image, "prompt":prompt}),prompt
     def captions(self, video_loc :str ,pr = 1,total = 1) :  
         video = cv.VideoCapture(video_loc)
         prev_frames,next_frames,framesForCaptions,times,goodframes = [],[],[],[],[]
