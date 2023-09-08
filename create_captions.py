@@ -17,9 +17,8 @@ class caption:
         self.batch_size = 10
         self.framesToSkip = 5
         self.prompt =  """Caption this image:
-Use below given text in square brackets [{}] Which are text on image in no perticular order
-Generate good caption describing entire image with text"""
-        self.ocr = CnOcr()  
+Use below given text in square brackets [{}] which are text on the image in no particular order. Generate a caption describing the entire image with only the text provided in the brackets."""
+        self.ocr = CnOcr(device = device)  
     def load_models(self,gm_loc : str):
         
         self.model = GMFlow(feature_channels = 128,
