@@ -16,9 +16,7 @@ class caption:
         self.vel = 60
         self.batch_size = 10
         self.framesToSkip = 5
-        self.prompt =  """Caption this image:
-Use below given text in square brackets [{}] which are text on the image in no particular order. 
-Generate a caption describing the entire image with only the text provided in the brackets."""
+        self.prompt =  "Caption this image using the text provided in square brackets [Caption this image,{}] obtained through OCR. Please ensure the caption is relevant to the OCR text."
         self.ocr = PaddleOCR(use_angle_cls=True, lang="ch",show_log=False) 
     def load_models(self,gm_loc : str):
         
