@@ -31,7 +31,7 @@ Use below given text in square brackets [{}] which are text on the image in no p
         checkpoint = torch.load(gm_loc, map_location= self.device)
         weights = checkpoint['model'] if 'model' in checkpoint else checkpoint
         self.model.load_state_dict(weights, strict='store_true')
-        self.model_blip, self.vis_processors, _ = load_model_and_preprocess(name = "blip2_t5_instruct", 
+        self.model_blip, self.vis_processors, _ = load_model_and_preprocess(name = "blip2_t5", 
                                                                 model_type = "flant5xxl", 
                                                                 is_eval = True, 
                                                                 device = self.device)
