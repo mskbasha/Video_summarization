@@ -32,7 +32,7 @@ Use below given text in square brackets [{}] which are text on the image in no p
         weights = checkpoint['model'] if 'model' in checkpoint else checkpoint
         self.model.load_state_dict(weights, strict='store_true')
         self.model_blip, self.vis_processors, _ = load_model_and_preprocess(name = "blip2_t5", 
-                                                                model_type = "flant5xxl", 
+                                                                model_type = model_type, 
                                                                 is_eval = True, 
                                                                 device = self.device)
     def cap(self,image):
